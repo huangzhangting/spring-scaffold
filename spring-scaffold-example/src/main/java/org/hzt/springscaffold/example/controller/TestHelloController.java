@@ -1,5 +1,6 @@
 package org.hzt.springscaffold.example.controller;
 
+import org.hzt.springscaffold.example.service.HelloServiceFeign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -16,6 +17,9 @@ public class TestHelloController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private HelloServiceFeign helloServiceFeign;
+
 
     @GetMapping("hello")
     public Object testHello(){
@@ -24,6 +28,11 @@ public class TestHelloController {
         String method = "/hello";
         String result = restTemplate.getForObject(uri + method, String.class);
         return result;
+    }
+
+    @GetMapping("hello2")
+    public Object testHello2(){
+        return helloServiceFeign.hello();
     }
 
 }
