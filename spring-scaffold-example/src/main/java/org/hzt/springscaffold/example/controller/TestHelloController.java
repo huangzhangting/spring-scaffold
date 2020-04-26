@@ -1,6 +1,7 @@
 package org.hzt.springscaffold.example.controller;
 
 import org.hzt.springscaffold.example.service.HelloServiceFeign;
+import org.hzt.springscaffold.example.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -33,6 +34,19 @@ public class TestHelloController {
     @GetMapping("hello2")
     public Object testHello2(){
         return helloServiceFeign.hello();
+    }
+
+    @GetMapping("user")
+    public Object user(){
+        return helloServiceFeign.postUser("hzt");
+    }
+
+    @GetMapping("user2")
+    public Object user2(){
+        UserVO param = new UserVO();
+        param.setName("gege");
+        param.setAge(18);
+        return helloServiceFeign.postUser(param);
     }
 
 }
