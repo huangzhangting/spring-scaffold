@@ -3,6 +3,9 @@ package org.hzt.springscaffold.example.service;
 import org.hzt.springscaffold.example.vo.UserVO;
 import org.springframework.stereotype.Component;
 
+/**
+ * 服务降级、熔断
+ * */
 @Component
 public class HelloServiceFallback implements HelloServiceFeign {
     @Override
