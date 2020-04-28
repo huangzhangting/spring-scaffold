@@ -3,6 +3,27 @@ spring:
     name: consul-service-user
   profiles:
     active: dev
+
+  datasource:
+    druid:
+      url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF8&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT
+      username: root
+      password: root
+      connectionProperties: config.decrypt=false
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      maxActive: 20
+      initialSize: 1
+      maxWait: 60000
+      minIdle: 1
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: select 'x'
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 20
+
   cloud:
     consul:
       # 服务发现配置
@@ -32,6 +53,10 @@ spring:
       probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
   zipkin:
     base-url: http://localhost:9411/ # 指定了 Zipkin 服务器的地址
+
+mybatis:
+  mapperLocations: classpath*:org/hzt/springscaffold/user/dal/mapper/**/*Mapper*.xml
+  typeAliasesPackage: org.hzt.springscaffold.user.dal.mapper
 
 server:
   port: 8899

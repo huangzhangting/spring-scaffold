@@ -1,6 +1,8 @@
 package org.hzt.springscaffold.user.controller;
 
+import org.hzt.springscaffold.user.dal.mapper.UserMapper;
 import org.hzt.springscaffold.user.vo.UserVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,9 +12,13 @@ public class HelloController {
     @Value("${server.port}")
     private String port;
 
+    @Autowired
+    private UserMapper userMapper;
+
+
     @GetMapping("hello")
     public Object hello(){
-        return "hello consul, from " + port;
+        return "hello consul, from " + port + " userCount:" + userMapper.count();
     }
 
     @PostMapping("param/postUser")
