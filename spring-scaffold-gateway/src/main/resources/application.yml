@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: spring-scaffold-gateway
+  profiles:
+    active: dev
+
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          # 是否与服务注册于发现组件进行结合，
+          # true：通过 serviceId 转发到具体的服务实例 false：serviceId不能转发，通过routes来匹配规则转发
+          enabled: false
+          lowerCaseServiceId: true # 将请求路径上的服务名配置为小写
+      routes:
+        - id: consul-service-user
+          uri: lb://consul-service-user # consul-service-user 的负载均衡地址
+          predicates:
+          - Path=/user/**  # 满足该规则的请求，转发到 lb://consul-service-user
+          filters:
+          - StripPrefix=1  # 转发前会去掉 /user
+
+    consul:
+      host: localhost
+      port: 8500
+      # 服务发现配置
+      discovery:
+        # 启用服务发现
+        enabled: true
+        # 启用服务注册
+        register: true
+        # 服务停止时取消注册
+        deregister: true
+        # 表示注册时使用IP而不是hostname
+        prefer-ip-address: true
+        # 执行监控检查的频率
+        health-check-interval: 30s
+        # 设置健康检查失败多长时间后，取消注册
+        health-check-critical-timeout: 30s
+        # 健康检查的路径
+        health-check-path: /actuator/info
+        # 服务注册标识，格式为：应用名称+服务器IP+端口
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+
+  sleuth:
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+  zipkin:
+    base-url: http://localhost:9411/ # 指定了 Zipkin 服务器的地址
+
+feign:
+  hystrix:
+    enabled: true
+
+server:
+  port: 8888
+
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
+
