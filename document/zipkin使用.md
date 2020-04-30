@@ -1,6 +1,6 @@
 ## zipkin 服务端
 #### 启动方式
-1、jar包：
+1、jar包：（https://repo1.maven.org/maven2/io/zipkin/java/zipkin-server/）
 curl -sSL https://zipkin.io/quickstart.sh | bash -s
 java -jar zipkin.jar
 
